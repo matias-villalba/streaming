@@ -1,0 +1,20 @@
+{
+  "name": "streaming",
+  "description": "A very simple example of how to implement streaming with html5, express and stream",
+  "version": "0.0.1",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4"
+  },
+  "devDependencies":{
+    "gulp": "^4.0.0",
+    "gulp-cli": "^2.0.1",
+    "gulp-connect": "^5.7.0",
+    "gulp-open": "^3.0.1"
+  },
+  "scripts": {
+    "server": "node app.js",
+    "client": "node node_modules/gulp/bin/gulp.js --gulpfile ./client/gulpfile.js",
+    "server-client": "npm run server | npm run client"
+  }
+}

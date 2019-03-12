@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  streaming-server:
+    build: .
+    ports:
+      - 5000:5000
+  html-pages-server:
+   image: nginx:alpine
+   ports:
+      - 9005:80
+   depends_on:
+      - streaming-server
+   volumes:
+      - ./client/index.html:/usr/share/nginx/html/index.html
