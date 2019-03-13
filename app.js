@@ -1,15 +1,14 @@
-const {initializeConnection} = require('./src/storage/dbconnection')
+const {initialize} = require('./src/storage')
 const express = require('express')
 const bodyparser = require('body-parser')
-const {VideoReading} = require('./src/video-reading')
-const DataBaseVideoReading = require('./src/video-reading/DataBaseVideoReading')
+const VideoReading = require('./src/video-reading')
 const {extractStartAndEndFromHeaders, retrieveStatusCode, HeadersBuilder} = require('./src/html5-video')
 const app = express()
 const port = 5000
 
-async function initialize(){
+async function startup(){
   try{
-    await initializeConnection()
+    await initialize()
     app.listen(port, function () {
       console.log('listening on port ' + port + '...');
     })
@@ -18,13 +17,12 @@ async function initialize(){
     process.exit(1)
   }
 }
-initialize()
-app.use(bodyparser.json({limit: '50mb'}))
+startup()
 
+app.use(bodyparser.json({limit: '50mb'}))
 app.get('/videos/:videoName', async (req, res) => {
   try{
-    //const videoReading = new VideoReading(req.params.videoName, res)
-    const videoReading = new DataBaseVideoReading(req.params.videoName, res)
+    const videoReading = new VideoReading(req.params.videoName, res)
     const {start, end} = extractStartAndEndFromHeaders(req.headers, await videoReading.getLastBytePosition())
     videoReading.read(start, end)
     res.writeHead(retrieveStatusCode(req.headers), new HeadersBuilder().addStart(start)

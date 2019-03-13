@@ -8,7 +8,7 @@ const chunksCollectionName = `${bucketName}.chunks`
 
 const {getConnection} = require('./dbconnection')
 
-module.exports = class {
+module.exports = class Dao{
 
   constructor () {
     this.db = getConnection().db(dbName)
@@ -56,7 +56,7 @@ module.exports = class {
                return
              }
              if(objWithLength === undefined){
-               reject(`filename: ${fileName} not found`)
+               reject(new Error(`filename: ${fileName} not found`))
              }
              resolve(objWithLength.length)
            })

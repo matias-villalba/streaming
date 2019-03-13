@@ -14,6 +14,8 @@
     "gulp-open": "^3.0.1"
   },
   "scripts": {
+    "server-with-fs-storage": "STORAGE_TYPE=filesystem node app.js",
+    "server-with-db-storage": "STORAGE_TYPE=database node app.js",
     "server": "node app.js",
     "client": "node node_modules/gulp/bin/gulp.js --gulpfile ./client/gulpfile.js",
     "server-client": "npm run server | npm run client"

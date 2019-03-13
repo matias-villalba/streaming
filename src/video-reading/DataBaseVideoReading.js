@@ -1,6 +1,6 @@
-const Dao = require('../storage/Dao')
+const {Dao} = require('../storage')
 
-module.exports = class FileSystemVideoReading {
+module.exports = class DataBaseVideoReading {
   constructor (videoFileName, output) {
     this.output = output
     this.videoFileName = videoFileName

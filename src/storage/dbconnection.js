@@ -5,13 +5,13 @@ let dbConnection
 
 module.exports.initializeConnection = async function connect () {
   try{
-    const dbConnectionPool = await MongoClient.connect(url, {poolSize: 10})
+    const dbConnectionPool = await MongoClient.connect(url, {poolSize: 10, useNewUrlParser: true})
     dbConnection = dbConnectionPool
     return dbConnectionPool
   }catch (error){
-    console.error('cont connect to mongodb', error.code)
-    console.error('cont connect to mongodb', error)
-    return error  //it will return a rejected promise
+    console.error('cant connect to mongodb', error.code)
+    console.error('cant connect to mongodb', error)
+    return Promise.reject(error)  //it will return a rejected promise
   }
 }
 
