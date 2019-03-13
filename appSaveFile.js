@@ -1,12 +1,12 @@
 const fs = require('fs')
-const dbconnection = require('./src/storage/dbconnection')
+const {initializeConnection} = require('./src/storage/dbconnection')
 const Dao = require('./src/storage/Dao')
 
 
 async function initialize(){
   try{
-    const db =  await dbconnection()
-    const dao = new Dao(db)
+    await initializeConnection()
+    const dao = new Dao()
 
     const videoReadStream = fs.createReadStream('./resources/the-big-bang-theory-opening.mp4')
     dao.save(videoReadStream, 'the-big-bang-theory-opening.mp4')
