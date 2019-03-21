@@ -1,11 +1,12 @@
 const {MongoClient} = require('mongodb')
-const url = 'mongodb://127.0.0.1:27017'
+const {databaseUrl} =  require('../config')
 
 let dbConnection
 
 module.exports.initializeConnection = async function connect () {
   try{
-    const dbConnectionPool = await MongoClient.connect(url, {poolSize: 10, useNewUrlParser: true})
+    console.log(`connecting to: ${databaseUrl}`)
+    const dbConnectionPool = await MongoClient.connect(databaseUrl, {poolSize: 10, useNewUrlParser: true})
     dbConnection = dbConnectionPool
     return dbConnectionPool
   }catch (error){

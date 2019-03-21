@@ -1,3 +1,5 @@
-/**
- * Created by mavillalba on 20/03/19.
- */
+const {usingDatabase} = require('../config')
+
+module.exports.getAllVideos = usingDatabase?
+  require('./dbSearch')
+  :require('./filesystemSearch')

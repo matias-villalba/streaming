@@ -1,10 +1,10 @@
 const fs = require('fs')
-const fileDirectory = './resources/'
+const {videosDirectoryPath} = require('../config')
 
 module.exports = class FileSystemVideoReading{
   constructor (videFilePath, output){
     this.output = output
-    this.videFilePath = `${fileDirectory}${videFilePath}`
+    this.videFilePath = `${videosDirectoryPath}${videFilePath}`
     this.fileStat = fs.statSync(this.videFilePath)
   }
 

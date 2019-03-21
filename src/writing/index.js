@@ -1,9 +1,5 @@
-const VideoReading = ((process.env.STORAGE_TYPE || 'filesystem') === 'database')?
-  require ('./DataBaseVideoReading'):
-  require ('./FileSystemVideoReading')
+const {usingDatabase} = require('../config')
 
-console.log(`Using ${VideoReading.name} implementation`)
-module.exports.VideoReading = VideoReading
-
-
-module.exports.videoWriter = require ('./DataBaseVideoWriter')
+module.exports.videoWriter = usingDatabase?
+  require ('./DataBaseVideoWriter')
+  :require ('./FilesystemVideoWriter')

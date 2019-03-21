@@ -1,3 +1,6 @@
-/**
- * Created by mavillalba on 21/03/19.
- */
+const Dao = require('../storage/Dao')
+
+module.exports = async function getAllVideos() {
+  const dao = new Dao()
+  return await dao.getAllFiles()
+}
