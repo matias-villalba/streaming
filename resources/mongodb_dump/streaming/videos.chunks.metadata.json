@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"streaming.videos.chunks"},{"v":2,"unique":true,"key":{"files_id":1,"n":1},"name":"files_id_1_n_1","ns":"streaming.videos.chunks","background":false}],"uuid":"61d1655278c94dbeb9555747c0c74ff2"}

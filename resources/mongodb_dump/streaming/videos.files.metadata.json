@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"streaming.videos.files"},{"v":2,"key":{"filename":1,"uploadDate":1},"name":"filename_1_uploadDate_1","ns":"streaming.videos.files","background":false}],"uuid":"373bb7d57c6047c4b031d33f5ed0b80c"}
