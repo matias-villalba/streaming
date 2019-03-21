@@ -2,6 +2,12 @@
 Run locally with gulp:
 npm install
 npm run server-client
+|
+npm run server-with-db-and-client
+|
+npm run server-with-fs-and-client
+|
+
 
 Or
 

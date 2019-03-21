@@ -7,4 +7,7 @@ COPY src /app/src
 COPY resources /app/resources
 RUN npm i
 EXPOSE 5000
-CMD ["npm", "run", "server"]
+ENV STORAGE_TYPE=database
+ENV DATABASE_URL=mongodb://172.17.0.1:27017
+ENV LISTENING_PORT=5000
+CMD ["node", "app.js"]

@@ -4,8 +4,11 @@
   "version": "0.0.1",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
     "express": "^4.16.4",
-    "mongodb": "^3.1.13"
+    "glob-promise": "^3.4.0",
+    "mongodb": "^3.1.13",
+    "multer": "^1.4.1"
   },
   "devDependencies": {
     "gulp": "^4.0.0",
@@ -18,6 +21,9 @@
     "server-with-db-storage": "STORAGE_TYPE=database node app.js",
     "server": "node app.js",
     "client": "node node_modules/gulp/bin/gulp.js --gulpfile ./client/gulpfile.js",
-    "server-client": "npm run server | npm run client"
+    "server-client": "npm run server | npm run client",
+    "server-with-db-and-client": "npm run server-with-db-storage | npm run client",
+    "server-with-fs-and-client": "npm run server-with-fs-storage | npm run client"
+
   }
 }
