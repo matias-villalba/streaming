@@ -3,18 +3,18 @@
   "description": "A very simple example of how to implement streaming with html5, express and stream",
   "version": "0.0.1",
   "dependencies": {
-    "body-parser": "^1.18.3",
-    "cors": "^2.8.5",
-    "express": "^4.16.4",
-    "glob-promise": "^3.4.0",
-    "mongodb": "^3.1.13",
-    "multer": "^1.4.1"
+    "body-parser": "1.18.3",
+    "cors": "2.8.5",
+    "express": "4.16.4",
+    "glob-promise": "3.4.0",
+    "mongodb": "3.1.13",
+    "multer": "1.4.1"
   },
   "devDependencies": {
-    "gulp": "^4.0.0",
-    "gulp-cli": "^2.0.1",
-    "gulp-connect": "^5.7.0",
-    "gulp-open": "^3.0.1"
+    "gulp": "4.0.0",
+    "gulp-cli": "2.0.1",
+    "gulp-connect": "5.7.0",
+    "gulp-open": "3.0.1"
   },
   "scripts": {
     "server-with-fs-storage": "STORAGE_TYPE=filesystem node app.js",

@@ -16,7 +16,14 @@ docker-compose up --build
 
 Or if you want to run only streaming sever's container:
 docker build -t streaming .
-docker run -it -p 5000:5000 streaming
+
+Run with filesystem config:
+docker run -itd -e STORAGE_TYPE='filesystem' \
+-e VIDEOS_DIRECTORY_PATH='./resources/' \
+-e LISTENING_PORT='5000' \
+-v $(pwd)/resources/the-big-bang-theory-opening.mp4:/app/resources/the-big-bang-theory-opening.mp4 \
+-p 5000:5000 streaming
+
 
 
 The html page where you can see the video will be:
