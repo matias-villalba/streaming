@@ -3,8 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Video</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
+
+<header class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar">
+
+        <form>
+            <label for="files">Select video file</label>
+            <div class="form-group">
+                <button id="uploadFile" type="button" class="btn btn-primary btn-sm" >upload</button>
+                <input type="file" id="files" name="file" class="btn btn-sm" />
+            </div>
+            <div class="input-group-append">
+
+            </div>
+
+        </form>
+
+</header>
+
+<div id="progress_bar">
+    <div class="percent">0%</div>
+</div>
 
 <div id="videosContainer">
     <div>
@@ -12,21 +36,12 @@
 </div>
 
 
-
-<!-- the-big-bang-theory-opening.mp4 --------- -->
-
 <style>
-    #byte_content {
-        margin: 5px 0;
-        max-height: 100px;
-        overflow-y: auto;
-        overflow-x: hidden;
-    }
-    #byte_range { margin-top: 5px; }
+
 
     #progress_bar {
-        margin: 10px 0;
-        padding: 3px;
+        margin: 0% 2% 1% 2%;
+        padding: 0px;
         border: 1px solid #000;
         font-size: 14px;
         clear: both;
@@ -46,25 +61,19 @@
 
 </style>
 
-<input type="file" id="files" name="file" /> Read bytes:
 
-<span class="readBytesButtons">
-  <button id="uploadFile">upload</button>
-</span>
 
-<div id="progress_bar">
-    <div class="percent">0%</div>
-</div>
 
 
 <script>
-
+   // const HOST = 'http://ad1a1420.ngrok.io'
+    const HOST = 'http://localhost:5000'
     const CONFIG = {
       uploadingChunkSize : 1024,
-      getAllVideosUrl : 'http://localhost:5000/videos',
-      startUploadingUrl : 'http://localhost:5000/videos',
-      postChunkUrlTemplate : 'http://localhost:5000/videos/:videoId/chunks',
-      fetchVideoUrlTemplate: 'http://localhost:5000/videos/:videoId'
+      getAllVideosUrl : HOST+'/videos',
+      startUploadingUrl : HOST+'/videos',
+      postChunkUrlTemplate : HOST+'/videos/:videoId/chunks',
+      fetchVideoUrlTemplate: HOST+'/videos/:videoId'
     }
 
     const progress = document.querySelector('.percent');
@@ -142,7 +151,7 @@
           if(newStart <= (file.size -1)){
             uploadChunk(newStart, newStop, callback)
           }else {
-            callback(undefined, videoId)    //all chunks have been sent
+            callback(undefined, {videoId:videoId, fileName:file.name})    //all chunks have been sent
           }
         })
       }
@@ -151,7 +160,7 @@
 
   }
 
-    function createHtml5VideoTag (videoId) {
+    function createHtml5VideoTag (videoId, fileName) {
         const srcAttribute = CONFIG.fetchVideoUrlTemplate.replace(':videoId', videoId)
 
         const newSource = document.createElement("source")
@@ -162,16 +171,27 @@
 
         newVideo.appendChild(newSource)
         newVideo.setAttribute('id', videoId)
-        newVideo.setAttribute('style', 'width:640px;height:360px;')
+        newVideo.setAttribute('class', 'embed-responsive-item')
         const controlsAttr =  document.createAttribute('controls')
         newVideo.setAttributeNode(controlsAttr);
-
         const newDivWithVideo = document.createElement("div")
+        newDivWithVideo.setAttribute('align', 'center')
+        newDivWithVideo.setAttribute('class', 'embed-responsive embed-responsive-16by9 mb-5')
+
+
         newDivWithVideo.appendChild(newVideo)
 
+        const newDivWithVideoName = document.createElement("div")
+        newDivWithVideoName.setAttribute('class', 'pl-2')
+        newDivWithVideoName.innerHTML = "<h2>"+fileName+"</h2>"
+
         const currentDiv = document.getElementById("videosContainer");
-        const lastDivWithVideo = document.querySelector('#videosContainer div:last-of-type')
-        currentDiv.insertBefore(newDivWithVideo, lastDivWithVideo.nextSibling);
+        const lastDivWithVideo = document.querySelector('#videosContainer>div:last-of-type')
+
+        currentDiv.insertBefore(newDivWithVideo, lastDivWithVideo.nextSibling)
+        currentDiv.insertBefore(newDivWithVideoName, lastDivWithVideo.nextSibling)
+
+
     }
 
 
@@ -182,11 +202,11 @@
         return;
       }
       document.getElementById('progress_bar').className = 'loading'
-      uploadFile(files[0], function(err, videoId) {
+      uploadFile(files[0], function(err, data) {
         if(err){
           console.log(err)
         }else{
-          createHtml5VideoTag(videoId)
+          createHtml5VideoTag(data.videoId, data.fileName)
           alert('file uploaded!!')
         }
       });
@@ -194,10 +214,11 @@
 
     const uploadButton = document.querySelector('#uploadFile')
     if (uploadButton.addEventListener) {
-      uploadButton.addEventListener("click", uploadFileOnClick, false);
+      uploadButton.addEventListener("click", uploadFileOnClick, false)
+
     }
     else {
-      uploadButton.attachEvent("onclick", uploadFileOnClick);
+      uploadButton.attachEvent("onclick", uploadFileOnClick)
     }
 
     get(CONFIG.getAllVideosUrl, [], function (err, videosAsTxt) {
@@ -207,13 +228,18 @@
       }
       const videos = JSON.parse(videosAsTxt)
       for(const key in videos){
-        createHtml5VideoTag (videos[key].id)
+        createHtml5VideoTag (videos[key].id, videos[key].filename)
       }
 
     })
 
 
 </script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 
 </body>
 </html>

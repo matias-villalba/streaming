@@ -118,7 +118,7 @@ module.exports = class Dao{
   getAllFiles(){
     return new Promise((resolve, reject)=> {
       this.db.collection(videosCollectionName)
-        .find({})
+        .find({length:{$gt:0}})
         .map(file=>{
           file.id = file._id.toString()
           delete file['_id']
