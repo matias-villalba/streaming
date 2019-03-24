@@ -1,7 +1,7 @@
-# Streaming web app with html5, NodeJs and Mongodb
-This is an example of a streaming web application, there are two implementations as example.
-The first one is using the filesystem to store de video files, the second one is using mongodb to store the videos.
-You can choose between each one alternatives setting environment variables or using next run alternatives:
+# Video streaming web app with html5, NodeJs and Mongodb
+This is an example of a video streaming web application, there are two implementations as an example.
+The first one uses the filesystem to store the video files, the second one uses Mongodb to store them.
+You can choose which one to use, by environment variables setting or with one of the following running alternatives:
 
 
 ### Run with docker-compose
@@ -42,12 +42,12 @@ npm run server-with-fs-storage
 
 
 ### With Docker
-If you want to build and run only the streaming sever container:
+If you want to build and run only the streaming server container:
 ```bash
 docker build -t streaming .
 ```
 
-Later run with the filesystem config:
+Then run, for instance, with the filesystem config:
 ```bash
 docker run -itd -e STORAGE_TYPE='filesystem' \
 -e VIDEOS_DIRECTORY_PATH='./resources/' \
