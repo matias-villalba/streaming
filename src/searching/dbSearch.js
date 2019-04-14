@@ -1,6 +1,6 @@
 const Dao = require('../storage/Dao')
 
 module.exports = async function getAllVideos() {
-  const dao = new Dao()
+  const dao = Dao.getInstance()
   return await dao.getAllFiles()
 }

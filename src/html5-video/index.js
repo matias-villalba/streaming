@@ -8,9 +8,9 @@ module.exports.extractStartAndEndFromHeaders = (requestHeaders, fileLastBytePosi
   }
   const parts = requestHeaders.range.replace(/bytes=/, "").split("-")
   const start = parseInt(parts[0], 10)
-  const end = parts[1]
+  const end = parts[1] && parts[1] !== '1'
     ? parseInt(parts[1], 10)
-    : fileLastBytePosition
+    :  fileLastBytePosition
 
   return {start, end}
 }

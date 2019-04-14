@@ -3,5 +3,6 @@ module.exports = {
 
   videosDirectoryPath: (process.env.VIDEOS_DIRECTORY_PATH || './resources/'),
   databaseUrl: (process.env.DATABASE_URL || 'mongodb://127.0.0.1:27017'),
+  databaseChunkSizeBytes: 1024 * 255,
   listeningPort: (process.env.LISTENING_PORT || 5000)
 }

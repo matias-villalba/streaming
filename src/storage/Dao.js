@@ -7,13 +7,20 @@ const videosCollectionName = `${bucketName}.files`
 const chunksCollectionName = `${bucketName}.chunks`
 
 const {getConnection} = require('./dbconnection')
+const {databaseChunkSizeBytes} = require('../config')
 
-module.exports = class Dao{
+let instance
+module.exports.getInstance = () =>{
+  instance = instance? instance : new Dao()
+  return instance
+}
+
+class Dao{
 
   constructor () {
     this.db = getConnection().db(dbName)
     this.bucket = new GridFSBucket(this.db, {
-      chunkSizeBytes: 1024,
+      chunkSizeBytes: databaseChunkSizeBytes,
       bucketName: bucketName
     })
 
@@ -48,7 +55,7 @@ module.exports = class Dao{
   getLastChunkByFileId (fileId) {
     const chunksCollection = this.db.collection(chunksCollectionName)
     return new Promise((resolve, reject)=>{
-      chunksCollection.findOne( { 'files_id': new ObjectID(fileId) }, {sort: {n: -1}, projection: {n: 1, _id: 0}},(err, lastChunk)=>{
+      chunksCollection.findOne( { 'files_id': new ObjectID(fileId) }, {sort: {n: -1}, projection: {n: 1, data:1, _id: 1}},(err, lastChunk)=>{
         err?
           reject(err)
           :resolve(lastChunk)
@@ -71,6 +78,22 @@ module.exports = class Dao{
           }
         })
       })
+  }
+
+  updateFileChunk(lastChunkInDb , dataToUpdate){
+    const chunksCollection = this.db.collection(chunksCollectionName)
+    return new Promise((resolve, reject)=>{
+      chunksCollection.updateOne({ "_id": lastChunkInDb._id }, {$set: { 'data':new Binary(dataToUpdate) }}, (err)=>{
+        try{
+          (err)?
+            reject(err)
+            :resolve()
+        }catch(e){
+          reject(e)
+        }
+      })
+    })
+
   }
 
 

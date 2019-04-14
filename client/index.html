@@ -66,10 +66,10 @@
 
 
 <script>
-   // const HOST = 'http://ad1a1420.ngrok.io'
+  //const HOST = 'http://d87f4050.ngrok.io'
     const HOST = 'http://localhost:5000'
     const CONFIG = {
-      uploadingChunkSize : 1024,
+      uploadingChunkSize : 1024 * 511,
       getAllVideosUrl : HOST+'/videos',
       startUploadingUrl : HOST+'/videos',
       postChunkUrlTemplate : HOST+'/videos/:videoId/chunks',
@@ -183,7 +183,7 @@
 
         const newDivWithVideoName = document.createElement("div")
         newDivWithVideoName.setAttribute('class', 'pl-2')
-        newDivWithVideoName.innerHTML = "<h2>"+fileName+"</h2>"
+        newDivWithVideoName.innerHTML = "<h2>"+(fileName?fileName:videoId)+"</h2>"
 
         const currentDiv = document.getElementById("videosContainer");
         const lastDivWithVideo = document.querySelector('#videosContainer>div:last-of-type')

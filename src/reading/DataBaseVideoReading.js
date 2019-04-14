@@ -4,7 +4,7 @@ module.exports = class DataBaseVideoReading {
   constructor (videoFileId, output) {
     this.output = output
     this.videoFileId = videoFileId
-    this.dao = new Dao()
+    this.dao = Dao.getInstance()
   }
 
   async getLastBytePosition () {
